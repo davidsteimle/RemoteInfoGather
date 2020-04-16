@@ -80,7 +80,13 @@ $MyQuery = Invoke-Command -ComputerName DavesLaptop -ScriptBlock $ScriptBlock1
 Which returns:
 
 ```
-
+SerialNumber     : E9N0CJ06786239E
+Manufacturer     : American Megatrends Inc.
+UUID             : 45271B53-316F-9144-B4CB-E9B5F6EDB36F
+BaseBoardProduct : TP300LD
+ChassisTypes     : 10
+SystemFamily     : TP
+SystemSKUNumber  : ASUS-NotebookSKU
 ```
 
 That's kind of pretty, right? However, we are making seven WMI calls to five WMI objects. What if we do this instead?
@@ -100,7 +106,38 @@ $MyQuery = Invoke-Command -ComputerName DavesLaptop -ScriptBlock $ScriptBlock2
 Which returns:
 
 ```
+SMBIOSBIOSVersion : TP300LD.201
+Manufacturer      : American Megatrends Inc.
+Name              : TP300LD.201
+SerialNumber      : E9N0CJ06786239E
+Version           : _ASUS_ - 1072009
 
+IdentifyingNumber : E9N0CJ06786239E
+Name              : TP300LD
+Vendor            : ASUSTeK COMPUTER INC.
+Version           : 1.0
+Caption           : Computer System Product
+
+Manufacturer : ASUSTeK COMPUTER INC.
+Model        :
+Name         : Base Board
+SerialNumber : BSN12345678901234567
+SKU          :
+Product      : TP300LD
+
+Manufacturer   : ASUSTeK COMPUTER INC.
+Model          :
+LockPresent    : False
+SerialNumber   : E9N0CJ06786239E
+SMBIOSAssetTag : No Asset Tag
+SecurityStatus : 3
+
+Domain              : WORKGROUP
+Manufacturer        : ASUSTeK COMPUTER INC.
+Model               : TP300LD
+Name                : LOCALHOST
+PrimaryOwnerName    : dave@davidsteimle.net
+TotalPhysicalMemory : 6319890432
 ```
 
 There are, obviously, several differences here. First, we are getting a lot more information from ``$ScriptBlock2``. Second, ``$ScriptBlock2`` is not as pretty, or usable as ``$ScriptBlock1``.
@@ -111,7 +148,7 @@ Just for fun, I ran both scriptblocks 10, 100, and 1000 times with ``Measure-Com
 PS> Measure-Command {
     $i = 1
     while($i -le 10){
-        Invoke-Command -ComputerName DavesLaptop -ScriptBlock $ScriptBlock1
+        Invoke-Command -ComputerName RemoteLaptop -ScriptBlock $ScriptBlock1
         $i++
     }
 } | Select-Object -Property TotalSeconds
@@ -123,7 +160,7 @@ TotalSeconds
 PS> Measure-Command {
     $i = 1
     while($i -le 10){
-        Invoke-Command -ComputerName DavesLaptop -ScriptBlock $ScriptBlock2
+        Invoke-Command -ComputerName RemoteLaptop -ScriptBlock $ScriptBlock2
         $i++
     }
 } | Select-Object -Property TotalSeconds
@@ -200,10 +237,12 @@ Your ``$MyQuery`` is a mess, right? Well, you ain't seen nothing yet. Try this:
 $MyQuery | Select-Object -Property *
 ```
 
-What we need is a way to make that information come back to me in a logical, and useful form. Let's rebuild ``$ScriptBlock2`` as ``$ScriptBlock3``, but add some other data we can play with:
+What we need is a way to make that information come back to us in a logical, and useful form. Let's rebuild ``$ScriptBlock2`` as ``$ScriptBlock3``, but add some other data we can play with:
 
 ```powershell
 $ScriptBlock3 = {
+    # Create an object with desired properties (named after our queries) 
+    # and then populate the property with resultant objects
     $Response = New-Object -Type PSObject | `
         Select-Object Win32_Bios,Win32_ComputerSystemProduct,Win32_BaseBoard,Win32_SystemEnclosure,Win32_ComputerSystem,PSVersionTable,LastReboot,CurrentKB
     $namespace = "root\CIMV2"
@@ -229,11 +268,11 @@ Now we just need to run the code against the field, and we are good; and if we h
 
 ## How Do We Run This Against the Field?
 
-There are numerous ways to run against the field. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query SCCM.
+There are numerous ways to run against the field. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query SCCM. A list of machines to check might have even come with my marching orders.
 
 > **Note:** be careful here, in your Enterprise. If you have a DEV environment, try a few systems there first. If you are running against the Enterprise, make sure you have buy in from someone first. This behavior could be misinterpreted by security. "Cover thy ass shall be the whole of the law."
 
-So, in this example, I have afictional exported table from Tanium:
+So, in this example, I have a fictional exported table from Tanium:
 
 ```
 Computer Name,Count
@@ -242,7 +281,7 @@ Laptop2,1
 Laptop5,1
 ```
 
-I will take this text table, make it a Here String, take the space out of _Computer Name_, and convert from CSV.
+I will take this text table, make it a [Here String](https://devblogs.microsoft.com/scripting/powertip-use-here-strings-with-powershell/), take the space out of _Computer Name_, and convert from CSV.
 
 ```powershell
 $Systems = @"
