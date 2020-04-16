@@ -285,3 +285,32 @@ You need to know your audience. If I'm sending it to one of you folks, I might j
 </div>
 
 Sometimes the key to having data is knowing how to give it to people, and having methods to do so in mind makes it pretty easy.
+
+The easiest method for you to hang on to and share with other Powershell folks is JSON.
+
+```powershell
+$Results | ConvertTo-Json | Out-File ./MyResults.json
+```
+
+Send that in an email and they can ``$DavesResults = Get-Content ./MyResults.json | ConvertFrom-Json``, or drop it on a web server, and they can ``$DavesResults = Invoke-RestMethod -Uri https://davidsteimle.net/rtpsug/MyResults.json`` and they have all the data, and can do with it what they like.
+
+However, that is a whole lot of data. Sometimes it is best to give what was aked for, so in this case we might want to build an accessible data set which we can work with.
+
+### Trim That Data
+
+What was that the boss asked for again?
+
+* SerialNumber
+* Manufacturer
+* UUID
+* BaseBoardProduct
+* ChassisTypes
+* SystemFamily
+* SystemSKUNumber
+* SMBIOSBIOSVersion
+
+Let's go ahead and assume they wanted _Computer Name_ too, because, duh.
+
+We need to know where these items are, and we do, because they were defined in our ``$ScriptBlock1`` query. Getting them out of our object will take a bit of digging. Let's work with a single system first.
+
+$Results
