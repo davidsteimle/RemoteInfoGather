@@ -268,8 +268,9 @@ We want to gather the data from these systems, so we need a way to hold the resu
 Then, we want to loop through the list of names, and run our scriptblock:
 
 ```powershell
+$Results = @{} # An empty hashtable
 $Systems.ForEach({
-    
+    $Results.Add($PSItem.ComputerName,$(Invoke-Command -ComputerName $PSItem.ComputerName -ScriptBlock $ScriptBlock3))
 })
 ```
 
