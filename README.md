@@ -204,17 +204,17 @@ What we need is a way to make that information come back to me in a logical, and
 
 ```powershell
 $ScriptBlock3 = {
+    $Response = New-Object -Type PSObject | `
+        Select-Object Win32_Bios,Win32_ComputerSystemProduct,Win32_BaseBoard,Win32_SystemEnclosure,Win32_ComputerSystem,PSVersionTable,LastReboot,CurrentKB
     $namespace = "root\CIMV2"
-    $Response = @{
-        "Win32_Bios" = $(Get-WmiObject -class Win32_Bios -namespace $namespace)
-        "Win32_ComputerSystemProduct" = $(Get-WmiObject Win32_ComputerSystemProduct)
-        "Win32_BaseBoard" = $(Get-WmiObject Win32_BaseBoard)
-        "Win32_SystemEnclosure" = $(Get-WmiObject Win32_SystemEnclosure)
-        "Win32_ComputerSystem" = $(Get-WmiObject Win32_ComputerSystem)
-        "PSVersionTable" = $($PSVersionTable)
-        "LastReboot" = $($wmi = gwmi win32_operatingsystem;$wmi.ConvertToDateTime($wmi.LastBootUpTime))
-        "CurrentKB" = $(Get-Hotfix | Select-Object -Last 1)
-    }
+        $Response.Win32_Bios = $(Get-WmiObject -class Win32_Bios -namespace $namespace)
+        $Response.Win32_ComputerSystemProduct = $(Get-WmiObject Win32_ComputerSystemProduct)
+        $Response.Win32_BaseBoard = $(Get-WmiObject Win32_BaseBoard)
+        $Response.Win32_SystemEnclosure = $(Get-WmiObject Win32_SystemEnclosure)
+        $Response.Win32_ComputerSystem = $(Get-WmiObject Win32_ComputerSystem)
+        $Response.PSVersionTable = $($PSVersionTable)
+        $Response.LastReboot = $($wmi = gwmi win32_operatingsystem;$wmi.ConvertToDateTime($wmi.LastBootUpTime))
+        $Response.CurrentKB = $(Get-Hotfix | Select-Object -Last 1)
     $Response
 }
 
