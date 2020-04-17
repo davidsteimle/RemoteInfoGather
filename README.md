@@ -1,6 +1,6 @@
 # Remote Information Gathering with Powershell
 
-Sometimes you have a need to get information from systems in your Enterprise. While there are many tools to do this, you might not have access to them, or they do not behave as desired. Tanium, for example, out of the box can be rather poor about how it handles registry queries. PowerShell, however, can do a lot with them. Alternately, you may have access to the systems in the Production environment, but not the Production deployment tools (such as SCCM) to use for reporting.
+Sometimes you have a need to get information from systems in your Enterprise. While there are many tools to do this, you might not have access to them, or they do not behave as desired. Tanium, for example, out of the box can be rather poor about how it handles registry queries. PowerShell, however, can do a lot with them. Alternately, you may have access to the systems in the Production environment, but not the Production deployment tools (such as ConfigMgr) to use for reporting.
 
 What is a scripter supposed to do?
 
@@ -276,7 +276,7 @@ Now we just need to run the code against the field, and we are good; and if we h
 
 ## How Do We Run This Against the Field?
 
-There are numerous ways to do this. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query SCCM for systems. A list of machines to check might have even come with my marching orders.
+There are numerous ways to do this. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query ConfigMgr for systems. A list of machines to check might have even come with my marching orders.
 
 > **Note:** be careful here, in your Enterprise. If you have a DEV environment, try a few systems there first. If you are running against the Enterprise, make sure you have buy in from someone. This behavior could be misinterpreted by security. "Cover thy ass shall be the whole of the law."
 
