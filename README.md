@@ -142,9 +142,9 @@ PrimaryOwnerName    : dave@davidsteimle.net
 TotalPhysicalMemory : 6319890432
 ```
 
-There are, obviously, several differences here. First, we are getting a lot more information from ``$ScriptBlock2``. Second, ``$ScriptBlock2`` is not as pretty, or usable as ``$ScriptBlock1``.
+There are, obviously, several differences here. First, we are getting a lot more information from [``$ScriptBlock2``](#ScriptBlock2). Second, [``$ScriptBlock2``](#ScriptBlock2) is not as pretty, or usable as [``$ScriptBlock1``](#ScriptBlock1).
 
-Just for fun, I ran both scriptblocks 10, 100, and 1000 times with ``Measure-Command`` againsta a single (remote) system:
+Just for fun, I ran both scriptblocks 10, 100, and 1000 times with ``Measure-Command`` against a a single (remote) system:
 
 ```
 PS> Measure-Command {
@@ -192,7 +192,7 @@ So, the Boss emails you and says:
 
 > Steimle: scan the field for SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes. Why are you still reading this? Go, man, go!
 
-Sweet! Those are the items I am getting with ``$ScriptBlock1``. My Enterprise has 50,000 machines. Based on my timing above, this should maybe take a while, but it's easy!
+Sweet! Those are the items I am getting with [``$ScriptBlock1``](#ScriptBlock1). My Enterprise has 50,000 machines. Based on my timing above, this should maybe take a while, but it's easy!
 
 _Starts script, goes to lunch. Waits a bit... Done!_
 
@@ -204,7 +204,7 @@ Incoming email:
 
 _For the record, none of my current bosses talk to me this way._
 
-Well, I still have ``$ScriptBlock2``, and it runs a little faster...
+Well, I still have [``$ScriptBlock2``](#ScriptBlock2), and it runs a little faster...
 
 Reply to boss:
 
@@ -216,7 +216,7 @@ Or am I...?
 
 ## Going a Bit Deeper
 
-So, while ``$ScriptBlock2`` gives us more information, it does not come back to us in a useful manner. Go ahead and run it on your system now. I'll wait...
+So, while [``$ScriptBlock2``](#ScriptBlock2) gives us more information, it does not come back to us in a useful manner. Go ahead and run it on your system now. I'll wait...
 
 ```powershell
 $ScriptBlock2 = {
@@ -239,7 +239,7 @@ Your ``$MyQuery`` is a mess, right? Well, you ain't seen nothing yet. Try this:
 $MyQuery | Select-Object -Property *
 ```
 
-What we need is a way to make that information come back to us in a logical, and useful form. Let's rebuild ``$ScriptBlock2`` as ``$ScriptBlock3``, but add some other data we can play with:
+What we need is a way to make that information come back to us in a logical, and useful form. Let's rebuild [``$ScriptBlock2``](#ScriptBlock2) as [``$ScriptBlock3``](#ScriptBlock3), but add some other data we can play with:
 
 #### ScriptBlock3
 
@@ -248,7 +248,8 @@ $ScriptBlock3 = {
     # Create an object with desired properties (named after our queries) 
     # and then populate the property with resultant objects
     $Response = New-Object -Type PSObject | `
-        Select-Object ComputerName,Win32_Bios,Win32_ComputerSystemProduct,Win32_BaseBoard,Win32_SystemEnclosure,Win32_ComputerSystem,PSVersionTable,LastReboot,CurrentKB
+        Select-Object ComputerName,Win32_Bios,Win32_ComputerSystemProduct,Win32_BaseBoard,`
+            Win32_SystemEnclosure,Win32_ComputerSystem,PSVersionTable,LastReboot,CurrentKB
     $namespace = "root\CIMV2"
         $Response.Win32_Bios = $(Get-WmiObject -class Win32_Bios -namespace $namespace)
         $Response.Win32_ComputerSystemProduct = $(Get-WmiObject Win32_ComputerSystemProduct)
@@ -267,7 +268,7 @@ $MyQuery = Invoke-Command -ComputerName Laptop1 -ScriptBlock $ScriptBlock3
 
 Notice that I have added the property ``ComputerName`` to the ``$Response`` object. The computer name appears roughly 26 times in my query data, but I want to make it a top-level data point
 
-Now, if you run that code, and then check ``$MyQuery`` it is not as pretty as ``$ScriptBlock1``, but if you check ``$MyQuery.Win32_Bios.SMBIOSBIOSVersion`` what do you get? Try that with ``$ScriptBlock2``. I'm not going anywhere.
+Now, if you run that code, and then check ``$MyQuery`` it is not as pretty as [``$ScriptBlock1``](#ScriptBlock1), but if you check ``$MyQuery.Win32_Bios.SMBIOSBIOSVersion`` what do you get? Try that with [``$ScriptBlock2``](#ScriptBlock2). I'm not going anywhere.
 
 > **Side Note:** when it comes to reading complicated, many layered objects, I like to pipe them through ``ConvertTo-Json`` for readability.
 
@@ -312,12 +313,15 @@ Laptop5      1
 Laptop9      1
 ```
 
-We want to gather the data from these systems, so we need a way to hold the results.
+We want to gather the data from these systems, so we need a way to hold the results. A generic list is a good choice, and easily added to.
+
+```powershell
+$Results = New-Object "System.Collections.Generic.List[PSObject]"
+```
 
 Then, we want to loop through the list of names, and run our scriptblock:
 
 ```powershell
-$Results = New-Object "System.Collections.Generic.List[PSObject]"
 $Systems.ForEach({
     $Results.Add($(Invoke-Command -ComputerName $PSItem.ComputerName -ScriptBlock $ScriptBlock3))
 })
@@ -345,7 +349,7 @@ The easiest method for you to hang on to and share with other Powershell folks i
 $Results | ConvertTo-Json | Out-File ./MyResults.json
 ```
 
-Send that in an email and they can ``$DavesResults = Get-Content ./MyResults.json | ConvertFrom-Json``, or drop it on a web server, and they can ``$DavesResults = Invoke-RestMethod -Uri https://davidsteimle.net/rtpsug/MyResults.json`` and they have all the data, and can do with it what they like.
+Send that in an email and they can ``$DavesResults = Get-Content ./MyResults.json | ConvertFrom-Json``, or drop it on a web server, and they can ``$DavesResults = Invoke-RestMethod -Uri https://davidsteimle.net/rtpsug/MyResults.json`` and they have all the data, and can do with it what they like. ([JSON Link](https://davidsteimle.net/rtpsug/MyResults.json))
 
 However, that is a whole lot of data. Sometimes it is best to give what was asked for, so in this case we might want to build an accessible data set which includes the requested items in a flat object.
 
@@ -368,7 +372,7 @@ Let's build another generic list to hold our data:
 $BossRequest = New-Object "System.Collections.Generic.List[PSObject]"
 ```
 
-We need to know where the items required are, and we do, because they were defined in our ``$ScriptBlock1`` query. Getting them out of our object will take a bit of digging. Let's work with a single system first.
+We need to know where the items required are, and we do, because they were defined in our [``$ScriptBlock1``](#ScriptBlock1) query. Getting them out of our object will take a bit of digging. Let's work with a single system first.
 
 ```
 $Results[0]
@@ -376,14 +380,15 @@ $Results[0]
 
 ```
 
-In fact, with a bit of tweaking, ``$ScriptBlock1`` will be very useful to us now. Let's make a loop, mimicing its behavior:
+In fact, with a bit of tweaking, [``$ScriptBlock1``](#ScriptBlock1) will be very useful to us now. Let's make a loop, mimicing its behavior:
 
 #### ScriptBlock1 as a Loop
 
 ```powershell
 foreach($Result in $Results){
     $obj = New-Object -Type PSObject | `
-        Select-Object ComputerName, SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes, SMBIOSBIOSVersion
+        Select-Object ComputerName, SerialNumber, Manufacturer, UUID, BaseBoardProduct, `
+            ChassisTypes, SMBIOSBIOSVersion
 
     $obj.ComputerName = $Result.ComputerName
     $obj.SerialNumber = $Result.Win32_Bios.SerialNumber
@@ -397,3 +402,60 @@ foreach($Result in $Results){
 }
 ```
 
+That is now a nicely flattened data set that the boss can do with as they please. And if they come back and ask for another data point you have collected, you can modify the loop and re-run with the new addition and hopefully not having to query the field again.
+
+### Sharing that Data
+
+The easiest way to share with non-scripters is the CSV file. They can open it in Excel and add colors and sort... all those things people love to do. Simple:
+
+```powershell
+$BossRequest | ConvertTo-Csv | Out-File -Path ./DavesResults.csv
+```
+
+# After Thoughts
+
+This was a basic look at gathering data, in a manner which I use fairly regularly. I did not include some things that will improve your time-to-run and eventual success, as they would have distracted a bit, but I want to include some of these here:
+
+## Test-Connection
+
+When we went through our list of systems, we easily could have added a test to see if the system was alive, or even existed. A system which cannot be reached by WinRM can take longer to process than a system which is (as a connection trying to be established can go on for some time). Speed can be improved, and errors avoided, with something like:
+
+```powershell
+if(Test-Connection $PSItem.ComputerName){
+    # Your code here
+} else {
+    # Note that the system was unavailable
+}
+```
+
+You can set parameters to ``Test-Connection`` to speed it up, depending on how important every result is. If I need data fast and do not need 100% of possibe answers I will do something like ``Test-Connection -ComputerName $PSItem.ComputerName -BufferSize 10 -Count 1 -ErrorAction SilentlyContinue``, which will skip a slow to respond or offline machine quickly. If I know my network is slow, a normal ``Test-Connection`` can help skip systems which I cannot reach, and I can note that they were unreachable.
+
+## Error Handling
+
+Similar to above, but more flexible:
+
+```powershell
+try {
+    Test-Connection $PSItem.ComputerName -ErrorAction Stop
+    # Connection was successful, so try your code
+    # Your code here
+} catch {
+    # Note that the system was unavailable
+}
+```
+
+## Clearing Variables
+
+When looping, as above, it is a good idea to recreate variables each time, or re-initialize them, to keep previous successful results from taining current failed results.
+
+## Error Handling in Your Script Block
+
+What happens when something goes wrong on the remote system? Perhaps you are trying to get a value that does not exist. You might want to control the response. A weird example I had was in getting a date from a registry query. My result set was littered with the date "01/01/0001 00:00:00". What in the world was going on? Turns out the registry value was empty, and returned a one (likely an exit code), so when I converted that to ``datetime`` I get:
+
+```
+PS C:\> [datetime]1
+
+Monday, January 1, 0001 12:00:00 AM
+```
+
+In that case I did not want to run the query again, so I fixed my results, but had I handled things properly, a try/catch around that date query could have returned ``$null`` instead of 1.
