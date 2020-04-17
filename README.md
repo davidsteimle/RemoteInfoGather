@@ -239,7 +239,7 @@ Your ``$MyQuery`` is a mess, right? Well, you ain't seen nothing yet. Try this:
 $MyQuery | Select-Object -Property *
 ```
 
-What we need is a way to make that information come back to us in a logical, and useful form. Let's rebuild [``$ScriptBlock2``](#ScriptBlock2) as [``$ScriptBlock3``](#ScriptBlock3), but add some other data we can play with:
+What we need is a way to make that information come back to us in a logical and useful form. Let's rebuild [``$ScriptBlock2``](#ScriptBlock2) as [``$ScriptBlock3``](#ScriptBlock3), but add some other data we can play with:
 
 #### ScriptBlock3
 
@@ -250,7 +250,7 @@ $ScriptBlock3 = {
     $Response = New-Object -Type PSObject | `
         Select-Object ComputerName,Win32_Bios,Win32_ComputerSystemProduct,Win32_BaseBoard,`
             Win32_SystemEnclosure,Win32_ComputerSystem,PSVersionTable,LastReboot,CurrentKB
-    $namespace = "root\CIMV2"
+        $namespace = "root\CIMV2"
         $Response.Win32_Bios = $(Get-WmiObject -class Win32_Bios -namespace $namespace)
         $Response.Win32_ComputerSystemProduct = $(Get-WmiObject Win32_ComputerSystemProduct)
         $Response.Win32_BaseBoard = $(Get-WmiObject Win32_BaseBoard)
@@ -276,7 +276,7 @@ Now we just need to run the code against the field, and we are good; and if we h
 
 ## How Do We Run This Against the Field?
 
-There are numerous ways to run against the field. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query SCCM for systems. A list of machines to check might have even come with my marching orders.
+There are numerous ways to do this. It is much quicker to use a threaded methodology, but I am not good at that, and it is scope creep. What I tend to do is to get an object of system names. This might be from a Tanium question, or I will query SCCM for systems. A list of machines to check might have even come with my marching orders.
 
 > **Note:** be careful here, in your Enterprise. If you have a DEV environment, try a few systems there first. If you are running against the Enterprise, make sure you have buy in from someone. This behavior could be misinterpreted by security. "Cover thy ass shall be the whole of the law."
 
@@ -327,7 +327,7 @@ $Systems.ForEach({
 })
 ```
 
-> **Side Note** ``$_`` is an alias for ``$PSItem``.
+> **Side Note** ``$_`` is an alias for ``$PSItem``. ``$_`` is widely recognized, but ``$PSItem`` is best prectice.
 
 The resultant object, ``$Results``, is not the most beautiful thing in the world, but we can work with it.
 
@@ -375,20 +375,22 @@ $BossRequest = New-Object "System.Collections.Generic.List[PSObject]"
 We need to know where the items required are, and we do, because they were defined in our [``$ScriptBlock1``](#ScriptBlock1) query. Getting them out of our object will take a bit of digging. Let's work with a single system first.
 
 ```
-$Results[0]
+$Results[0] | ConvertTo-Json
 
 
 ```
 
-In fact, with a bit of tweaking, [``$ScriptBlock1``](#ScriptBlock1) will be very useful to us now. Let's make a loop, mimicing its behavior:
+In fact, with a bit of tweaking, [``$ScriptBlock1``](#ScriptBlock1) will be very useful to us now. For example, ``Get-WmiObject -class Win32_Bios -namespace $namespace | Select-Object -ExpandProperty SerialNumber`` becomes ``$Result.Win32_Bios.SerialNumber``, which is just Current Item ($Result), Class (Win32_Bios), Property (SerialNumber).
 
-#### ScriptBlock1 as a Loop
+Let's make a loop, mimicing its behavior:
+
+#### Modified ScriptBlock1 as a Loop
 
 ```powershell
 foreach($Result in $Results){
     $obj = New-Object -Type PSObject | `
-        Select-Object ComputerName, SerialNumber, Manufacturer, UUID, BaseBoardProduct, `
-            ChassisTypes, SMBIOSBIOSVersion
+        Select-Object ComputerName, SerialNumber, Manufacturer, UUID, `
+            BaseBoardProduct, ChassisTypes, SMBIOSBIOSVersion
 
     $obj.ComputerName = $Result.ComputerName
     $obj.SerialNumber = $Result.Win32_Bios.SerialNumber
@@ -402,7 +404,7 @@ foreach($Result in $Results){
 }
 ```
 
-That is now a nicely flattened data set that the boss can do with as they please. And if they come back and ask for another data point you have collected, you can modify the loop and re-run with the new addition and hopefully not having to query the field again.
+That is now a nicely flattened data set that the boss can do with as they please. And if they come back and ask for another data point you have collected, you can modify the loop and re-run with the new addition.
 
 ### Sharing that Data
 
@@ -450,7 +452,7 @@ When looping, as above, it is a good idea to recreate variables each time, or re
 
 ## Error Handling in Your Script Block
 
-What happens when something goes wrong on the remote system? Perhaps you are trying to get a value that does not exist. You might want to control the response. A weird example I had was in getting a date from a registry query. My result set was littered with the date "01/01/0001 00:00:00". What in the world was going on? Turns out the registry value was empty, and returned a one (likely an exit code), so when I converted that to ``datetime`` I get:
+What happens when something goes wrong on the remote system? Perhaps you are trying to get a value that does not exist. You might want to control the response. A weird example I had was in getting a date from a registry query. My result set was littered with the date "01/01/0001 00:00:00". What in the world was going on? Turns out the registry value was empty, and returned a ``1`` (likely an exit code), so when I converted that to ``datetime`` I get:
 
 ```
 PS C:\> [datetime]1
