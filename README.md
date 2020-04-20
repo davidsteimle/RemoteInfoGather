@@ -446,6 +446,16 @@ try {
 }
 ```
 
+## Record as You Go
+
+So, if we are talking about a lot of systems, and a lot of time, what happens if you have a power outage, or IT sends a shutdown command in the middle of the night. Whether your script completed or not, its results were all stored in volatile memory. One way to keep the data you gain is to write it, in some manner.
+
+I like to use a database, such as SQLite3, at times. I will transform my results into a SQL query, and add them to a simple database. The above results, however, are multi-level, and might be hard to database. You could convert individual results to JSON and write each to a file or files for later retreival, or you could database that JSON in a text field.
+
+The bottom line is that in the above scenario, you are relying on your system state not changing. If you get everything, and your system is still in good shape when you are done, well, then you have both. If something happens during your run, at least you have the data you gathered, even if it is not complete. With some proper data management, you could begin where you left off and cut down your time to complete.
+
+
+
 ## Clearing Variables
 
 When looping, as above, it is a good idea to recreate variables each time, or re-initialize them, to keep previous successful results from taining current failed results.
