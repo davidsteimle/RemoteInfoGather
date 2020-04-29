@@ -1,7 +1,7 @@
 # Remote Information Gathering with Powershell
 
 ### About Me
-* Distributed Systems Support Specialist with the United States Postal Service in the Desktop Computing Application Packaging team in Raleigh, NC
+* Distributed Systems Support Specialist with the United States Postal Service for the Desktop Computing Application Packaging team in Raleigh, NC
 * Started to learn Powershell (poorly) six years ago; three years later it became my primary job function
 * Microsoft Configuration Manager
 * A Linux user (Debian-style) who works primarily with Windows
@@ -20,6 +20,7 @@ Some of the PowerShell Commands and methodology I will be using are listed below
 * Script Blocks
 * Generic Lists
 * ``ConvertTo-Json``, ``Convert-To-Csv``, ``Out-File``
+* Piping
 
 -----
 
@@ -61,7 +62,7 @@ Now, our last boot time is in the variable ``$LastBootTime`` and can be used els
 $LastBootTime | Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 ```
 
-An alternative to the scriptblock as we have stated it above, is to create it as a variable as well. This is quite useful for complex scriptblocks.
+An alternative to the scriptblock as we have stated it above, is to create it as a variable. This is quite useful for complex scriptblocks.
 
 ```powershell
 $MyScriptBlock = {
@@ -216,11 +217,11 @@ So, the Boss emails you and says:
 
 > Steimle: scan the field for SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes. Why are you still reading this? Go, man, go!
 
-Sweet! Those are the items I am getting with [``$ScriptBlock1``](#ScriptBlock1). My Enterprise has 50,000 machines. Based on my timing above, this should maybe take a while, but it's easy!
+Sweet! Those are the items I am getting with [``$ScriptBlock1``](#ScriptBlock1). My fictional Enterprise has 10,000 machines. Based on my timing above, this should take about 5 hours, but it's easy!
 
-_Starts script, goes to lunch. Waits a bit... Done!_
+_Starts script, answers some emails, gets coffee, attends a meeting, goes to lunch. Waits a bit... Done!_
 
-So, I wrap my results up in a CSV, because managers love CSV files, and off it goes.
+So, I wrap my results up in a CSV, because managers love _Excel_, and off it goes.
 
 Incoming email:
 
