@@ -1,7 +1,7 @@
 # Remote Information Gathering with Powershell
 
 ### About Me
-* Distributed Systems Support Specialist with the United States Postal Service for the Desktop Computing Application Packaging team in Raleigh, NC
+* Packaging Department with the USPS
 * Started to learn Powershell (poorly) six years ago; three years later it became my primary job function
 * Microsoft Configuration Manager
 * A Linux user (Debian-style) who works primarily with Windows
