@@ -1,5 +1,28 @@
 # Remote Information Gathering with Powershell
 
+### About Me
+* Distributed Systems Support Specialist with the United States Postal Service
+* Started to learn Powershell (poorly) six years ago; three years later it became my primary job function
+* Microsoft Configuration Manager
+* A Linux user (Debian-style) who works primarily with Windows
+* Contact
+   * [davidsteimle.net](https://davidsteimle.net)
+   * [@dbsteimle on Twitter](https://twitter.com/dbsteimle)
+   * DavidSteimle#5975 on Discord
+   
+
+### Core Concepts
+
+Some of the PowerShell Commands and methodology I will be using are listed below. I may not talk about them in-depth.
+
+* ``Invoke-Command``
+* ``New-Object``
+* Script Blocks
+* Generic Lists
+* ``ConvertTo-Json``, ``Convert-To-Csv``, ``Out-File``
+
+-----
+
 Sometimes you have a need to get information from systems in your Enterprise. While there are many tools to do this, you might not have access to them, or they do not behave as desired. Tanium, for example, out of the box can be rather poor about how it handles registry queries. PowerShell, however, can do a lot with them. Alternately, you may have access to the systems in the Production environment, but not the Production deployment tools (such as ConfigMgr) to use for reporting.
 
 What is a scripter supposed to do?
@@ -377,7 +400,7 @@ We need to know where the items required are, and we do, because they were defin
 ```
 $Results[0] | ConvertTo-Json
 
-
+# I am missing something here...
 ```
 
 In fact, with a bit of tweaking, [``$ScriptBlock1``](#ScriptBlock1) will be very useful to us now. For example, ``Get-WmiObject -class Win32_Bios -namespace $namespace | Select-Object -ExpandProperty SerialNumber`` becomes ``$Result.Win32_Bios.SerialNumber``, which is just Current Item ($Result), Class (Win32_Bios), Property (SerialNumber).
