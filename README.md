@@ -1,7 +1,7 @@
 # Remote Information Gathering with Powershell
 
 ### About Me
-* Distributed Systems Support Specialist with the United States Postal Service
+* Distributed Systems Support Specialist with the United States Postal Service in the Desktop Computing Application Packaging team in Raleigh, NC
 * Started to learn Powershell (poorly) six years ago; three years later it became my primary job function
 * Microsoft Configuration Manager
 * A Linux user (Debian-style) who works primarily with Windows
@@ -84,7 +84,8 @@ Let's gather some information about a system.
 $ScriptBlock1 = {
     $namespace = "root\CIMV2"
     $obj1 = New-Object -Type PSObject | `
-        Select-Object SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes, SystemFamily, SystemSKUNumber
+        Select-Object SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes, `
+            SystemFamily, SystemSKUNumber
 
     $obj1.SerialNumber = Get-WmiObject -class Win32_Bios -namespace $namespace | `
         Select-Object -ExpandProperty SerialNumber
