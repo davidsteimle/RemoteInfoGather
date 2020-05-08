@@ -1,7 +1,5 @@
 # Remote Information Gathering with Powershell
 
-checking...
-
 ### About Me
 * Packaging Department with the USPS
 * Started to learn Powershell (poorly) six years ago; three years later it became my primary job function
@@ -42,19 +40,17 @@ A simple example might be:
 
 ```powershell
 Invoke-Command -ComputerName Laptop1 -Scriptblock { 
-  $wmi = gwmi win32_operatingsystem
-  $wmi.ConvertToDateTime($wmi.LastBootUpTime) 
+  Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty LastBootUpTime
 }
 ```
 
-The scriptlock above will use a WMI call to determine the last time the system booted, and convert it to a human-readable ``datetime`` value.
+The scriptlock above will use a CIM call to determine the last time the system booted as a ``datetime`` value.
 
 The power comes in when we assign that example to a variable.
 
 ```powershell
 $LastBootTime = Invoke-Command -ComputerName Laptop1 -Scriptblock { 
-  $wmi = gwmi win32_operatingsystem
-  $wmi.ConvertToDateTime($wmi.LastBootUpTime)
+  Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty LastBootUpTime
 }
 ```
 
@@ -68,11 +64,10 @@ An alternative to the scriptblock as we have stated it above, is to create it as
 
 ```powershell
 $MyScriptBlock = {
-  $wmi = gwmi win32_operatingsystem
-  $wmi.ConvertToDateTime($wmi.LastBootUpTime)
+  Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty LastBootUpTime
 }
 
-$LastBootTime = Invoke-Command -ComputerName Laptop1 -ScriptBlock $MyScriptBlock
+$LastBootTime = Invoke-Command -ComputerName $RemotePC -ScriptBlock $MyScriptBlock
 ```
 
 ### Getting Multiple Responses
