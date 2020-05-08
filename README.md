@@ -85,18 +85,24 @@ $ScriptBlock1 = {
         Select-Object SerialNumber, Manufacturer, UUID, BaseBoardProduct, ChassisTypes, `
             SystemFamily, SystemSKUNumber
 
-    $obj1.SerialNumber = Get-WmiObject -class Win32_Bios -namespace $namespace | `
+    $obj1.SerialNumber = Get-CimInstance -ClassName Win32_BIOS | `
         Select-Object -ExpandProperty SerialNumber
-    $obj1.Manufacturer = Get-WmiObject -class Win32_Bios -namespace $namespace | `
+    $obj1.Manufacturer = Get-CimInstance -ClassName Win32_BIOS | `
         Select-Object -ExpandProperty Manufacturer
-    $obj1.UUID = Get-WmiObject Win32_ComputerSystemProduct | Select-Object -ExpandProperty UUID
-    $obj1.BaseBoardProduct = Get-WmiObject Win32_BaseBoard | Select-Object -ExpandProperty Product
-    $obj1.ChassisTypes = Get-WmiObject Win32_SystemEnclosure | Select-Object -ExpandProperty ChassisTypes
+    $obj1.UUID = Get-CimInstance -ClassName Win32_ComputerSystemProduct | `
+        Select-Object -ExpandProperty UUID
+    $obj1.BaseBoardProduct = Get-CimInstance -ClassName Win32_BaseBoard | `
+        Select-Object -ExpandProperty Product
+    $obj1.ChassisTypes = Get-CimInstance -ClassName Win32_SystemEnclosure | `
+        Select-Object -ExpandProperty ChassisTypes
+    $obj1.SystemFamily = Get-CimInstance -ClassName Win32_ComputerSystem | `
+        Select-Object -ExpandProperty SystemFamily
     
+
     $obj1
 }
 
-$MyQuery1 = Invoke-Command -ComputerName Laptop1 -ScriptBlock $ScriptBlock1
+$MyQuery1 = Invoke-Command -ComputerName $RemotePC -ScriptBlock $ScriptBlock1
 ```
 
 Which returns:
