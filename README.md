@@ -39,7 +39,7 @@ At its most basic, ``Invoke-Command`` accepts a scriptblock and runs it. The ben
 A simple example might be:
 
 ```powershell
-Invoke-Command -ComputerName Laptop1 -Scriptblock { 
+Invoke-Command -ComputerName $RemotePC -Scriptblock { 
   Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty LastBootUpTime
 }
 ```
@@ -49,7 +49,7 @@ The scriptlock above will use a CIM call to determine the last time the system b
 The power comes in when we assign that example to a variable.
 
 ```powershell
-$LastBootTime = Invoke-Command -ComputerName Laptop1 -Scriptblock { 
+$LastBootTime = Invoke-Command -ComputerName $RemotePC -Scriptblock { 
   Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty LastBootUpTime
 }
 ```
