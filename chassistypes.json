@@ -1,64 +1,147 @@
 [
     
-        {
-            "Index":  1,
-            "Type":  "Other"
-        },
-        {
-            "Index":  2,
-            "Type":  "Unknown"
-        },
-        {
-            "Index":  3,
-            "Type":  "Desktop"
-        },
-        {
-            "Index":  4,
-            "Type":  "Low Profile Desktop"
-        },
-        {
-            "Index":  5,
-            "Type":  "Pizza Box"
-        },
-        {
-            "Index":  6,
-            "Type":  "Mini Tower"
-        },
-        {
-            "Index":  7,
-            "Type":  "Tower"
-        },
-        {
-            "Index":  8,
-            "Type":  "Portable"
-        },
-        {
-            "Index":  9":  "Laptop",
-        "10":  "Notebook",
-        "11":  "Hand Held",
-        "12":  "Docking Station",
-        "13":  "All in One",
-        "14":  "Sub Notebook",
-        "15":  "Space-Saving",
-        "16":  "Lunch Box",
-        "17":  "Main System Chassis",
-        "18":  "Expansion Chassis",
-        "19":  "SubChassis",
-        "20":  "Bus Expansion Chassis",
-        "21":  "Peripheral Chassis",
-        "22":  "Storage Chassis",
-        "23":  "Rack Mount Chassis",
-        "24":  "Sealed-Case PC",
-        "25":  "Multi-system Chassis",
-        "26":  "Compact PCI",
-        "27":  "Advanced TCA",
-        "28":  "Blade",
-        "29":  "Blade Enclosure",
-        "30":  "Tablet",
-        "31":  "Convertible",
-        "32":  "Detachable",
-        "33":  "IoT Gateway",
-        "34":  "Embedded PC",
-        "35":  "Mini PC",
-        "36":  "Stick PC"
+    {
+        "Index":  1,
+        "Type":  "Other"
+    },
+    {
+        "Index":  2,
+        "Type":  "Unknown"
+    },
+    {
+        "Index":  3,
+        "Type":  "Desktop"
+    },
+    {
+        "Index":  4,
+        "Type":  "Low Profile Desktop"
+    },
+    {
+        "Index":  5,
+        "Type":  "Pizza Box"
+    },
+    {
+        "Index":  6,
+        "Type":  "Mini Tower"
+    },
+    {
+        "Index":  7,
+        "Type":  "Tower"
+    },
+    {
+        "Index":  8,
+        "Type":  "Portable"
+    },
+    {
+        "Index":  9,
+        "Type":  "Laptop"
+    },
+    {
+        "Index":  10,
+        "Type":  "Notebook"
+    },
+    {
+        "Index":  11,
+        "Type":  "Hand Held"
+    },
+    {
+        "Index":  12,
+        "Type":  "Docking Station"
+    },
+    {
+        "Index":  13,
+        "Type":  "All in One"
+    },
+    {
+        "Index":  14,
+        "Type":  "Sub Notebook"
+    },
+    {
+        "Index":  15,
+        "Type":  "Space-Saving"
+    },
+    {
+        "Index":  16,
+        "Type":  "Lunch Box"
+    },
+    {
+        "Index":  17,
+        "Type":  "Main System Chassis"
+    },
+    {
+        "Index":  18,
+        "Type":  "Expansion Chassis"
+    },
+    {
+        "Index":  19,
+        "Type":  "SubChassis"
+    },
+    {
+        "Index":  20,
+        "Type":  "Bus Expansion Chassis"
+    },
+    {
+        "Index":  21,
+        "Type":  "Peripheral Chassis"
+    },
+    {
+        "Index":  22,
+        "Type":  "Storage Chassis"
+    },
+    {
+        "Index":  23,
+        "Type":  "Rack Mount Chassis"
+    },
+    {
+        "Index":  24,
+        "Type":  "Sealed-Case PC"
+    },
+    {
+        "Index":  25,
+        "Type":  "Multi-system Chassis"
+    },
+    {
+        "Index":  26,
+        "Type":  "Compact PCI"
+    },
+    {
+        "Index":  27,
+        "Type":  "Advanced TCA"
+    },
+    {
+        "Index":  28,
+        "Type":  "Blade"
+    },
+    {
+        "Index":  29,
+        "Type":  "Blade Enclosure"
+    },
+    {
+        "Index":  30,
+        "Type":  "Tablet"
+    },
+    {
+        "Index":  31,
+        "Type":  "Convertible"
+    },
+    {
+        "Index":  32,
+        "Type":  "Detachable"
+    },
+    {
+        "Index":  33,
+        "Type":  "IoT Gateway"
+    },
+    {
+        "Index":  34,
+        "Type":  "Embedded PC"
+    },
+    {
+        "Index":  35,
+        "Type":  "Mini PC"
+    },
+    {
+        "Index":  36,
+        "Type":  "Stick PC"
+    }
 ]
