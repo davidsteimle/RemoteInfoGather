@@ -97,7 +97,6 @@ $ScriptBlock1 = {
         Select-Object -ExpandProperty ChassisTypes
     $obj1.SystemFamily = Get-CimInstance -ClassName Win32_ComputerSystem | `
         Select-Object -ExpandProperty SystemFamily
-    
 
     $obj1
 }
@@ -520,3 +519,11 @@ Monday, January 1, 0001 12:00:00 AM
 ```
 
 In that case I did not want to run the query again, so I fixed my results, but had I handled things properly, a try/catch around that date query could have returned ``$null`` instead of messy data.
+
+# Work on this....
+
+But first, heres a little callback to some earlier presentations for you to play with:
+
+```powershell
+$ChassisTypes = Invoke-RestMethod https://davidsteimle.net/rtpsug/chassistypes.json
+```
