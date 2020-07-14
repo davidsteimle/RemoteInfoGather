@@ -1,0 +1,146 @@
+[
+    {
+        "Index":  1,
+        "Name":  "Other"
+    },
+    {
+        "Index":  2,
+        "Name":  "Unknown"
+    },
+    {
+        "Index":  3,
+        "Name":  "Desktop"
+    },
+    {
+        "Index":  4,
+        "Name":  "Low Profile Desktop"
+    },
+    {
+        "Index":  5,
+        "Name":  "Pizza Box"
+    },
+    {
+        "Index":  6,
+        "Name":  "Mini Tower"
+    },
+    {
+        "Index":  7,
+        "Name":  "Tower"
+    },
+    {
+        "Index":  8,
+        "Name":  "Portable"
+    },
+    {
+        "Index":  9,
+        "Name":  "Laptop"
+    },
+    {
+        "Index":  10,
+        "Name":  "Notebook"
+    },
+    {
+        "Index":  11,
+        "Name":  "Hand Held"
+    },
+    {
+        "Index":  12,
+        "Name":  "Docking Station"
+    },
+    {
+        "Index":  13,
+        "Name":  "All in One"
+    },
+    {
+        "Index":  14,
+        "Name":  "Sub Notebook"
+    },
+    {
+        "Index":  15,
+        "Name":  "Space-Saving"
+    },
+    {
+        "Index":  16,
+        "Name":  "Lunch Box"
+    },
+    {
+        "Index":  17,
+        "Name":  "Main System Chassis"
+    },
+    {
+        "Index":  18,
+        "Name":  "Expansion Chassis"
+    },
+    {
+        "Index":  19,
+        "Name":  "SubChassis"
+    },
+    {
+        "Index":  20,
+        "Name":  "Bus Expansion Chassis"
+    },
+    {
+        "Index":  21,
+        "Name":  "Peripheral Chassis"
+    },
+    {
+        "Index":  22,
+        "Name":  "Storage Chassis"
+    },
+    {
+        "Index":  23,
+        "Name":  "Rack Mount Chassis"
+    },
+    {
+        "Index":  24,
+        "Name":  "Sealed-Case PC"
+    },
+    {
+        "Index":  25,
+        "Name":  "Multi-system chassis"
+    },
+    {
+        "Index":  26,
+        "Name":  "Compact PCI"
+    },
+    {
+        "Index":  27,
+        "Name":  "Advanced TCA"
+    },
+    {
+        "Index":  28,
+        "Name":  "Blade"
+    },
+    {
+        "Index":  29,
+        "Name":  "Blade Enclosure"
+    },
+    {
+        "Index":  30,
+        "Name":  "Tablet"
+    },
+    {
+        "Index":  31,
+        "Name":  "Convertible"
+    },
+    {
+        "Index":  32,
+        "Name":  "Detachable"
+    },
+    {
+        "Index":  33,
+        "Name":  "IoT Gateway"
+    },
+    {
+        "Index":  34,
+        "Name":  "Embedded PC"
+    },
+    {
+        "Index":  35,
+        "Name":  "Mini PC"
+    },
+    {
+        "Index":  36,
+        "Name":  "Stick PC"
+    }
+]
