@@ -17,10 +17,10 @@ $ScriptBlock = {
         Five = $null
         Six = $null
     }
-    if(Get-AppxPackage -Name "751d2504-0855-4568-a90d-fe4a4413cd97" -AllUsers){
+    if(Get-AppxPackage -Name "Old Version" -AllUsers){
         $MyResult.Five = $True
     }
-    if(Get-AppxPackage -Name "a77af31f-f4b1-4e50-94b5-bebb0dd47cf3" -AllUsers){
+    if(Get-AppxPackage -Name "New Version" -AllUsers){
         $MyResult.Six = $True
     }
     $MyResult
